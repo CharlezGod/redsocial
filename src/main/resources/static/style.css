@@ -1,0 +1,68 @@
+.oculta { display: none !important; }
+.activa { display: block; animation: fadeIn 0.3s ease-in-out; }
+
+@keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(4px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
+
+/* Conservamos exactamente el gradiente verde/azul original */
+.bg-gradient-custom {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dbeafe 100%);
+}
+
+.modal-backdrop-custom {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.auth-card, .custom-modal-card {
+    width: 100%;
+    max-width: 420px;
+    z-index: 2001;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #0d6efd !important;
+}
+
+#mi-mapa {
+    z-index: 1;
+}
+
+/* Efectos de elevación sutiles manteniendo la paleta */
+.hover-up {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hover-up:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Responsive Logo Adaptativo */
+.logo-full { display: inline; }
+.logo-stacked { display: none; }
+
+@media (max-width: 768px) {
+    .logo-full { display: none; }
+    .logo-stacked { 
+        display: flex; 
+        flex-direction: column; 
+        line-height: 1; 
+        font-size: 15px; 
+    }
+    .logo-stacked small { 
+        font-size: 11px; 
+        color: #6c757d; 
+        font-weight: normal; 
+    }
+}
