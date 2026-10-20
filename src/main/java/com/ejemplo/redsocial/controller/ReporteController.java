@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ejemplo.redsocial.model.Reporte;
 import com.ejemplo.redsocial.repository.ReporteRepository;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/reportes")
 @CrossOrigin(origins = "*")
@@ -31,7 +33,7 @@ public class ReporteController {
     }
 
     @PostMapping
-    public Reporte crearReporte(@RequestBody Reporte reporte) {
+    public Reporte crearReporte(@Valid @RequestBody Reporte reporte) {
         return reporteRepository.save(reporte);
     }
 

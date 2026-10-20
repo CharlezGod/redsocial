@@ -5,6 +5,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "misiones")
@@ -14,9 +19,20 @@ public class Mision {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El título de la misión es obligatorio.")
+    @Size(max = 255, message = "El título no puede superar los 255 caracteres.")
     private String titulo;
+
+    @NotBlank(message = "La ubicación es obligatoria.")
+    @Size(max = 255, message = "La ubicación no puede superar los 255 caracteres.")
     private String ubicacion;
+
+    @Min(value = 0, message = "El AQI no puede ser negativo.")
+    @Max(value = 500, message = "El AQI no puede superar 500.")
     private Integer aqi;
+
+    @NotBlank(message = "El estado es obligatorio.")
+    @Pattern(regexp = "Pendiente|En Curso|Completada", message = "El estado debe ser Pendiente, En Curso o Completada.")
     private String estado;
 
     public Mision() {}

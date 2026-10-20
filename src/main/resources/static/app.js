@@ -132,6 +132,20 @@ function cambiarTabAuth(tipo) {
     }
 }
 
+// --- MENSAJES DE VALIDACIÓN DEL SERVIDOR (Spring Validation) ---
+async function leerMensajeError(res, mensajePorDefecto) {
+    try {
+        const data = await res.clone().json();
+        if (data.errores) return Object.values(data.errores).join('\n');
+        if (data.mensaje) return data.mensaje;
+    } catch (e) { /* la respuesta no era JSON */ }
+    try {
+        const texto = await res.text();
+        if (texto) return texto;
+    } catch (e) { /* sin cuerpo */ }
+    return mensajePorDefecto;
+}
+
 // --- SUBMIT REGISTRO DE USUARIOS ---
 const formReg = document.getElementById('form-registro');
 if (formReg) {
@@ -155,7 +169,7 @@ if (formReg) {
                 formReg.reset();
                 cambiarTabAuth('login');
             } else {
-                alert("Ese nombre de usuario ya está ocupado o hubo un error.");
+                alert(await leerMensajeError(res, "No se pudo crear la cuenta."));
             }
         } catch (err) {
             console.error(err);
@@ -378,6 +392,8 @@ async function guardarReporteMapa(lat, lng, aqi) {
             dibujarMarcadoresGuardados();
             actualizarTablaReportes();
             actualizarTablaMisiones(); 
+        } else {
+            alert(await leerMensajeError(resRep, "No se pudo guardar el reporte."));
         }
     } catch(err) {
         console.error(err);
@@ -559,6 +575,9 @@ if (formMis) {
                 if (res.ok) {
                     const nueva = await res.json();
                     misionesDB.push(nueva);
+                } else {
+                    alert(await leerMensajeError(res, "No se pudo guardar la misión."));
+                    return;
                 }
             } else {
                 const res = await fetch(`${API_URL}/misiones/${idInput}`, {
@@ -569,6 +588,9 @@ if (formMis) {
                 if (res.ok) {
                     const index = misionesDB.findIndex(m => m.id == idInput);
                     misionesDB[index] = await res.json();
+                } else {
+                    alert(await leerMensajeError(res, "No se pudo actualizar la misión."));
+                    return;
                 }
             }
             

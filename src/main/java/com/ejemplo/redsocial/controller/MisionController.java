@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ejemplo.redsocial.model.Mision;
 import com.ejemplo.redsocial.repository.MisionRepository;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/misiones")
 @CrossOrigin(origins = "*")
@@ -32,12 +34,12 @@ public class MisionController {
     }
 
     @PostMapping
-    public Mision crearMision(@RequestBody Mision mision) {
+    public Mision crearMision(@Valid @RequestBody Mision mision) {
         return misionRepository.save(mision);
     }
 
     @PutMapping("/{id}")
-    public Mision actualizarMision(@PathVariable Long id, @RequestBody Mision mision) {
+    public Mision actualizarMision(@PathVariable Long id, @Valid @RequestBody Mision mision) {
         return misionRepository.findById(id).map(existente -> {
             existente.setTitulo(mision.getTitulo());
             existente.setUbicacion(mision.getUbicacion());
